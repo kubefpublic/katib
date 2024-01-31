@@ -1,5 +1,5 @@
 # Build the Katib UI.
-FROM node:12.18.1 AS npm-build
+FROM node:16.20.2 AS npm-build
 
 # Build frontend.
 ADD /pkg/ui/v1beta1/frontend /frontend
@@ -31,7 +31,7 @@ RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     fi
 
 # Copy the backend and frontend into a thin image.
-FROM alpine:3.15
+FROM alpine:3.19
 WORKDIR /app
 COPY --from=go-build /go/src/github.com/kubeflow/katib/katib-ui /app/
 COPY --from=npm-build /frontend/build /app/build
